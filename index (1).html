@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Era Readiness Assessment — Accidental Analytics</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#1A1208;
+  --paper:#FAF7F2;
+  --warm:#C8A96E;
+  --warm-light:#F0E6D3;
+  --accent:#8B3A2A;
+  --accent-light:#FAF0ED;
+  --muted:#7A6E5F;
+  --border:#E0D5C5;
+  --green:#2C4A3E;
+  --green-light:#E0EDE8;
+  --blue:#1E3A5F;
+  --blue-light:#DCE6F5;
+  --red:#8B3A2A;
+  --red-light:#F5E0DC;
+  --purple:#3C3489;
+  --purple-light:#EEEDFE;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);min-height:100vh;padding:0}
+.wrap{max-width:660px;margin:0 auto;padding:48px 24px 80px}
+.brand{font-family:'Playfair Display',serif;font-size:13px;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin-bottom:40px;display:flex;align-items:center;gap:12px}
+.brand span{color:var(--accent);font-style:italic}
+.brand-line{flex:1;height:1px;background:var(--border)}
+
+/* INTRO */
+.intro h1{font-family:'Playfair Display',serif;font-size:36px;font-weight:700;line-height:1.2;margin-bottom:12px}
+.intro h1 em{font-style:italic;color:var(--accent)}
+.intro .sub{font-size:15px;color:var(--muted);line-height:1.7;margin-bottom:32px;max-width:520px}
+.meta-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:40px}
+.meta-pill{font-size:12px;padding:5px 14px;border:0.5px solid var(--border);border-radius:20px;color:var(--muted);background:white}
+.btn-primary{background:var(--ink);color:var(--paper);border:none;padding:14px 36px;font-size:15px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;border-radius:4px;transition:background 0.2s}
+.btn-primary:hover{background:var(--accent)}
+.dim-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:40px}
+.dim-card{padding:14px 10px;border:0.5px solid var(--border);border-radius:8px;background:white;text-align:center}
+.dim-card .dc-name{font-size:12px;font-weight:500;color:var(--ink);line-height:1.3;margin-bottom:3px}
+.dim-card .dc-count{font-size:11px;color:var(--muted)}
+
+/* PROGRESS */
+.progress-wrap{margin-bottom:40px}
+.progress-meta{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:8px}
+.progress-bar{height:2px;background:var(--border);border-radius:2px}
+.progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width 0.4s ease}
+
+/* QUESTION */
+.dim-tag{font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:10px;display:inline-block;padding:3px 10px;border-radius:3px}
+.dt-awareness{background:var(--green-light);color:var(--green)}
+.dt-situation{background:var(--warm-light);color:#633806}
+.dt-eq{background:var(--purple-light);color:var(--purple)}
+.dt-strategy{background:var(--blue-light);color:var(--blue)}
+.q-text{font-family:'Playfair Display',serif;font-size:22px;line-height:1.4;margin-bottom:28px;font-weight:400}
+.options{display:flex;flex-direction:column;gap:10px;margin-bottom:32px}
+.opt{padding:14px 18px;border:0.5px solid var(--border);border-radius:6px;cursor:pointer;font-size:14px;color:var(--ink);transition:all 0.15s;background:white;line-height:1.5;text-align:left}
+.opt:hover{border-color:var(--accent);background:var(--accent-light)}
+.opt.sel{border:1px solid var(--accent);background:var(--accent-light);color:var(--accent);font-weight:500}
+.freetext-wrap{margin-bottom:32px}
+.freetext-wrap textarea{width:100%;border:0.5px solid var(--border);border-radius:6px;padding:14px;font-size:14px;font-family:'DM Sans',sans-serif;color:var(--ink);background:white;resize:vertical;min-height:100px;outline:none;line-height:1.6}
+.freetext-wrap textarea:focus{border-color:var(--accent)}
+.hint-box{margin-top:10px;padding:12px 14px;background:white;border-radius:6px;border-left:2px solid var(--warm)}
+.hint-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--accent);margin-bottom:4px}
+.hint-text{font-size:13px;color:var(--muted);line-height:1.6}
+.hint-eg{font-size:12px;color:#aaa;font-style:italic;margin-top:6px;line-height:1.5}
+.nav-row{display:flex;justify-content:space-between;align-items:center}
+.btn-back{background:none;border:none;font-size:13px;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;padding:0}
+.btn-back:hover{color:var(--ink)}
+.btn-next{background:var(--ink);color:var(--paper);border:none;padding:12px 28px;font-size:14px;font-weight:500;font-family:'DM Sans',sans-serif;border-radius:4px;cursor:pointer;transition:all 0.2s;opacity:0.3;pointer-events:none}
+.btn-next.on{opacity:1;pointer-events:all}
+.btn-next.on:hover{background:var(--accent)}
+
+/* EMAIL */
+.email-screen{text-align:center;padding:40px 0}
+.email-screen h2{font-family:'Playfair Display',serif;font-size:30px;font-weight:700;line-height:1.3;margin-bottom:12px}
+.email-screen h2 em{font-style:italic;color:var(--accent)}
+.email-screen p{font-size:15px;color:var(--muted);line-height:1.7;margin-bottom:32px;max-width:440px;margin-left:auto;margin-right:auto}
+.email-row{display:flex;gap:8px;max-width:400px;margin:0 auto 12px}
+.email-row input{flex:1;border:0.5px solid var(--border);border-radius:4px;padding:12px 14px;font-size:14px;font-family:'DM Sans',sans-serif;background:white;color:var(--ink);outline:none}
+.email-row input:focus{border-color:var(--accent)}
+.email-row button{background:var(--ink);color:var(--paper);border:none;padding:12px 20px;border-radius:4px;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap}
+.email-row button:hover{background:var(--accent)}
+.skip-btn{font-size:12px;color:var(--muted);cursor:pointer;text-decoration:underline;background:none;border:none;font-family:'DM Sans',sans-serif}
+
+/* LOADING */
+.loading{text-align:center;padding:80px 0}
+.loading h3{font-family:'Playfair Display',serif;font-size:24px;margin-bottom:10px}
+.loading p{font-size:14px;color:var(--muted);margin-bottom:32px}
+.spinner{width:32px;height:32px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* REPORT */
+.rep-hero{background:var(--ink);color:var(--paper);padding:40px;border-radius:8px;margin-bottom:16px;text-align:center}
+.rep-brand{font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--warm);margin-bottom:14px}
+.rep-score{font-family:'Playfair Display',serif;font-size:72px;font-weight:700;color:var(--warm);line-height:1;margin-bottom:8px}
+.rep-title{font-family:'Playfair Display',serif;font-size:24px;margin-bottom:8px}
+.rep-sub{font-size:13px;color:#a89880;line-height:1.6;max-width:400px;margin:0 auto}
+.dim-scores{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px}
+.dsc{background:white;border:0.5px solid var(--border);border-radius:6px;padding:12px 8px;text-align:center}
+.dsc-name{font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);margin-bottom:4px;line-height:1.3}
+.dsc-val{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:var(--ink)}
+.rep-section{background:white;border:0.5px solid var(--border);border-radius:8px;padding:1.5rem;margin-bottom:10px}
+.rep-section-title{font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.rep-content{font-size:14px;line-height:1.8;color:var(--ink);white-space:pre-wrap}
+.cta-section{background:var(--warm-light);border:0.5px solid var(--warm);border-radius:8px;padding:28px;margin-top:20px;text-align:center}
+.cta-section h3{font-family:'Playfair Display',serif;font-size:22px;margin-bottom:8px}
+.cta-section p{font-size:13px;color:var(--muted);margin-bottom:18px;line-height:1.6}
+.cta-btn{display:inline-block;background:var(--ink);color:var(--paper);padding:12px 28px;border-radius:4px;font-size:14px;font-weight:500;text-decoration:none;font-family:'DM Sans',sans-serif}
+.cta-btn:hover{background:var(--accent)}
+.restart-btn{display:block;margin:16px auto 0;background:none;border:0.5px solid var(--border);color:var(--muted);padding:8px 20px;border-radius:4px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif}
+.restart-btn:hover{border-color:var(--ink);color:var(--ink)}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+
+<script>
+const DIMS=[
+  {id:'awareness',label:'AI awareness',short:'Awareness',cls:'dt-awareness'},
+  {id:'situation',label:'Situation instinct',short:'Instinct',cls:'dt-situation'},
+  {id:'eq',label:'People & politics',short:'People',cls:'dt-eq'},
+  {id:'strategy',label:'Strategic lens',short:'Strategy',cls:'dt-strategy'}
+];
+
+const QS=[
+  // ── AWARENESS ───────────────────────────────────────────────────────────────
+  {dim:'awareness',type:'mc',
+   text:'Your manager asks you to "do something with AI" by end of quarter. You have never led an AI initiative. Your honest first reaction is:',
+   opts:['Anxiety — this is outside my comfort zone and I am not sure where to start',
+         'Caution — I will wait to see what others do first then learn from their experience',
+         'Curiosity — I immediately start looking for a problem in the team worth solving',
+         'Instinct — I already have two ideas from watching the team and I go straight to testing them'],
+   scores:[0,1,2,3]},
+
+  {dim:'awareness',type:'mc',
+   text:'Which AI tools have you actively used for professional work in the last 30 days?',
+   opts:['None — I have not started yet',
+         'ChatGPT or similar for occasional personal tasks like drafting emails or summarising documents',
+         'AI tools embedded in my daily workflow — Copilot, Gemini, or similar at work',
+         'Multiple AI tools regularly for different professional purposes — prompting, analysis, workflow automation'],
+   scores:[0,1,2,3]},
+
+  {dim:'awareness',type:'mc',
+   text:'Think about the last time you encountered a completely unfamiliar tool or method at work. What did you actually do?',
+   opts:['Waited until someone trained me or explained it — I do not like figuring things out without guidance',
+         'Watched a few videos or read the help documentation before trying it',
+         'Opened it, started clicking, figured out the basics myself within an hour',
+         'Had it working for a real task within a day — I learn fastest by doing something that matters'],
+   scores:[0,1,2,3]},
+
+  {dim:'awareness',type:'mc',
+   text:'A colleague warns in a meeting that the AI tool being considered might "hallucinate." You:',
+   opts:['Nod along — you are not entirely sure what this means in practice',
+         'Know it means AI can generate false information but are not sure how to manage it',
+         'Can explain it clearly and give a real example from something you have personally encountered',
+         'Understand it well enough to describe specific design choices that reduce the risk in your context'],
+   scores:[0,1,2,3]},
+
+  {dim:'awareness',type:'mc',
+   text:'A vendor pitches an AI tool promising to "transform your function in 90 days." You:',
+   opts:['Feel genuinely excited — you forward the deck to your manager that afternoon',
+         'Feel sceptical but struggle to articulate specific questions that would expose real weaknesses',
+         'Challenge them on data requirements, integration complexity, and what adoption actually looks like in practice',
+         'Are already mentally comparing it to alternatives and preparing the questions they will not be able to answer'],
+   scores:[0,1,2,3]},
+
+  // ── SITUATION ───────────────────────────────────────────────────────────────
+  {dim:'situation',type:'mc',
+   text:'You need to identify one AI use case for your team. You have two days and no prior experience doing this. Your approach is:',
+   opts:['Research what other companies in your industry are doing and compile a shortlist',
+         'Ask your manager and senior colleagues what they believe the priority should be',
+         'Spend the two days observing your team\'s actual work and find the task that causes the most pain or wasted time',
+         'You already know — you have been watching the team for weeks and the answer has been obvious to you for a while'],
+   scores:[0,1,2,3]},
+
+  {dim:'situation',type:'mc',
+   text:'You built a dashboard your team clearly needs. Three weeks later only two people are opening it. You:',
+   opts:['Accept it — behaviour change is slow and you cannot force people to adopt new tools',
+         'Send a team message reminding everyone that the dashboard exists and asking them to use it',
+         'Run small group sessions to understand exactly what is blocking adoption and redesign the access path',
+         'Build an automated digest that sends each person their own relevant numbers directly — the dashboard goes to them, not the other way round'],
+   scores:[0,1,2,3]},
+
+  {dim:'situation',type:'mc',
+   text:'Leadership asks for a report your team normally takes four hours to compile. They want it in 20 minutes next time. You:',
+   opts:['Explain honestly that a four-hour task cannot realistically be delivered in 20 minutes',
+         'Say yes, then figure out how to speed it up gradually over the next few months',
+         'Identify the single step that accounts for most of the time and find a way to automate just that part first',
+         'You had already been thinking about this — you have a semi-automated version in progress before they even ask'],
+   scores:[0,1,2,3]},
+
+  {dim:'situation',type:'mc',
+   text:'Your IT team has delayed a key dependency you need for six weeks with no resolution in sight. You:',
+   opts:['Keep following up politely and wait — it is their process and you respect it',
+         'Escalate to your manager to apply pressure on the IT team from above',
+         'Find a workaround that eliminates the IT dependency entirely and move forward without them',
+         'You had already built around IT from day one — you only brought them in for the parts that genuinely required it'],
+   scores:[0,1,2,3]},
+
+  {dim:'situation',type:'mc',
+   text:'Think about the last time a project or initiative you led did not deliver what you promised. What did you do?',
+   opts:['Managed the communication carefully and moved on — these things happen',
+         'Investigated what went wrong and reported the findings upward',
+         'Changed your approach based on what you learned and applied those lessons to the next initiative',
+         'Restructured the approach mid-course when you saw it was not working — you did not wait for the end to course-correct'],
+   scores:[0,1,2,3]},
+
+  // ── EQ ──────────────────────────────────────────────────────────────────────
+  {dim:'eq',type:'mc',
+   text:'A senior colleague privately tells you they think your AI initiative is a waste of time. They are influential and you need their support. You:',
+   opts:['Thank them for the feedback and hope they come around once they see results',
+         'Defend your approach and explain the evidence supporting it',
+         'Ask them what success would need to look like for them to consider it worthwhile — then design toward that',
+         'Recognise what is really driving their concern — it is rarely about the initiative itself — and address that underlying issue directly'],
+   scores:[0,1,2,3]},
+
+  {dim:'eq',type:'mc',
+   text:'You need a peer — someone with no obligation to you — to start using and actively advocating for a system you built. Your most effective move is:',
+   opts:['Ask them directly with a clear explanation of the benefits and hope they engage',
+         'Get your manager to communicate that everyone should be using the new system',
+         'Make them the named product owner — put their name on the homepage and give them visible association with the output',
+         'Identify their specific personal pain point first, then show them the system already solves it — ownership and advocacy follow naturally'],
+   scores:[0,1,2,3]},
+
+  {dim:'eq',type:'mc',
+   text:'A successful initiative you led is increasingly being presented by a more senior colleague as their project — with you barely mentioned. You:',
+   opts:['Say nothing — credit politics is an unavoidable part of working in organisations',
+         'Feel frustrated but are unsure how to address it without appearing petty or difficult',
+         'Find strategic ways to be visibly associated with the work through the right forums and conversations',
+         'You designed for this already — multiple people depend on you directly, so your centrality is structurally obvious regardless of who presents it'],
+   scores:[0,1,2,3]},
+
+  {dim:'eq',type:'mc',
+   text:'Your team is resisting a new process you are introducing because it adds 10 minutes to their weekly workflow. You:',
+   opts:['Accept the resistance and let adoption happen naturally over time',
+         'Make it mandatory and manage the complaints as they come in',
+         'Redesign the process specifically to reduce their effort before relaunching it',
+         'Involve the most vocal critic directly in redesigning the solution — they become your strongest advocate once they have ownership'],
+   scores:[0,1,2,3]},
+
+  {dim:'eq',type:'mc',
+   text:'You are trying to get three busy colleagues to submit their data into a new system regularly. None of them report to you. The most effective approach is:',
+   opts:['Send a clear email explaining the benefits and asking them to start using it',
+         'Ask your manager to formally require them to submit their data',
+         'Show each one specifically how their data will make them look better in leadership meetings',
+         'Get their data in yourself first — even manually — so they can see their own numbers on the dashboard before you ask them to maintain it'],
+   scores:[0,1,2,3]},
+
+  // ── STRATEGY ────────────────────────────────────────────────────────────────
+  {dim:'strategy',type:'mc',
+   text:'AI is increasingly handling tasks your function currently does manually. Your strategic response is:',
+   opts:['Monitor the situation carefully and wait to see how things develop before acting',
+         'Focus on becoming excellent at the tasks AI cannot yet replicate reliably',
+         'Actively identify which parts of your role AI should own and which require human judgment — and redesign your work accordingly',
+         'Position yourself as the person who decides how AI gets applied in your function — the architect of the system, not the operator of it'],
+   scores:[0,1,2,3]},
+
+  {dim:'strategy',type:'mc',
+   text:'You have three viable AI use cases to pursue but capacity to build only one. You choose:',
+   opts:['The most technically impressive one — it will demonstrate ambition and forward thinking to leadership',
+         'The quickest and easiest to build — early wins build momentum and credibility',
+         'The one your most senior stakeholder has personally expressed the most interest in',
+         'The one where you can demonstrate clear measurable impact within 30 days using data you already have access to'],
+   scores:[0,1,2,3]},
+
+  {dim:'strategy',type:'mc',
+   text:'In your honest experience, what is the single biggest reason most AI initiatives in organisations fail to deliver lasting value?',
+   opts:['The technology was not mature or reliable enough for the specific use case',
+         'The underlying data was too messy, incomplete, or inaccessible to be useful',
+         'Leadership did not provide enough sustained sponsorship or budget to see it through',
+         'People and politics — resistance, poor adoption, credit battles, and lack of real ownership — not the technology itself'],
+   scores:[0,1,2,3]},
+
+  // ── FREE TEXT ────────────────────────────────────────────────────────────────
+  {dim:'strategy',type:'free',
+   text:'Your leadership just set a target: reduce costs in your function by 20% using AI over 18 months. You have no additional budget, your IT team is unavailable for the next six weeks, and your manager wants a credible update in 10 days. What do you actually do first?',
+   hint:'We are looking for your real first action — not a polished plan. What would you genuinely do on day one and day two?',
+   eg:'For example: Would you map current manual processes and time spent? Speak to the team to identify highest-friction tasks? Challenge whether 20% is even the right metric? Start building something immediately with available tools? There is no correct answer — specificity and honesty are what matter here.'},
+
+  {dim:'strategy',type:'free',
+   text:'Describe a moment in the last 12 months when you had to change your mind about something you were confident about — at work, not in your personal life. What happened and what did it tell you about yourself?',
+   hint:'This question is about learning agility and self-awareness — two of the strongest predictors of success in an AI-changing environment.',
+   eg:'For example: A use case you championed that did not work out, a judgment call about a person or process that turned out to be wrong, an assumption about a technology or approach that you had to revise. The scale does not matter — the quality of your reflection does.'}
+];
+
+let cur=0,ans=[],app=document.getElementById('app');
+const R=html=>{app.innerHTML=html};
+
+function showIntro(){
+  R(`<div>
+    <div class="brand">Accidental <span>Analytics</span><div class="brand-line"></div></div>
+    <div class="intro">
+      <h1>Where do you actually stand<br>in the <em>AI era?</em></h1>
+      <p class="sub">20 questions across 4 dimensions. An honest mirror — not a quiz. You will get a specific, personalised assessment of your strengths, blind spots, and what to do next. No technical knowledge tested. No CV required.</p>
+      <div class="meta-row">
+        <span class="meta-pill">20 questions</span>
+        <span class="meta-pill">~8 minutes</span>
+        <span class="meta-pill">Free personalised report</span>
+        <span class="meta-pill">Powered by AI</span>
+      </div>
+      <button class="btn-primary" onclick="startA()">Begin assessment →</button>
+      <div class="dim-grid">
+        <div class="dim-card"><div class="dc-name">AI awareness</div><div class="dc-count">5 questions</div></div>
+        <div class="dim-card"><div class="dc-name">Situation instinct</div><div class="dc-count">5 questions</div></div>
+        <div class="dim-card"><div class="dc-name">People & politics</div><div class="dc-count">5 questions</div></div>
+        <div class="dim-card"><div class="dc-name">Strategic lens</div><div class="dc-count">3 + 2 open</div></div>
+      </div>
+    </div>
+  </div>`);
+}
+
+function startA(){cur=0;ans=[];showQ();}
+
+function showQ(){
+  const q=QS[cur];
+  const pct=Math.round((cur/QS.length)*100);
+  const dim=DIMS.find(d=>d.id===q.dim);
+  let inputHtml='';
+  if(q.type==='mc'){
+    inputHtml=`<div class="options">`+q.opts.map((o,i)=>`<button class="opt${ans[cur]?.idx===i?' sel':''}" onclick="selOpt(${i})">${o}</button>`).join('')+`</div>`;
+  } else {
+    inputHtml=`<div class="freetext-wrap">
+      <textarea id="fta" placeholder="Write your honest answer here...">${ans[cur]?.text||''}</textarea>
+      <div class="hint-box">
+        <div class="hint-label">What we are looking for</div>
+        <div class="hint-text">${q.hint}</div>
+        <div class="hint-eg">${q.eg}</div>
+      </div>
+    </div>`;
+  }
+  R(`<div>
+    <div class="brand">Accidental <span>Analytics</span><div class="brand-line"></div></div>
+    <div class="progress-wrap">
+      <div class="progress-meta"><span class="dim-tag ${dim.cls}">${dim.label}</span><span>${cur+1} of ${QS.length}</span></div>
+      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+    </div>
+    <div class="q-text">${q.text}</div>
+    ${inputHtml}
+    <div class="nav-row">
+      ${cur>0?`<button class="btn-back" onclick="goBack()">← Back</button>`:`<span></span>`}
+      <button class="btn-next${ans[cur]!==undefined?' on':''}" id="nxt" onclick="nextQ()">${cur===QS.length-1?'See my results →':'Continue →'}</button>
+    </div>
+  </div>`);
+  if(q.type==='free'){
+    const ta=document.getElementById('fta');
+    ta.oninput=checkFree;
+    if(ans[cur]?.text)checkFree();
+  }
+}
+
+function selOpt(i){
+  ans[cur]={idx:i,score:QS[cur].scores[i],text:QS[cur].opts[i]};
+  document.querySelectorAll('.opt').forEach((o,j)=>o.classList.toggle('sel',j===i));
+  document.getElementById('nxt').classList.add('on');
+}
+
+function checkFree(){
+  const v=document.getElementById('fta').value.trim();
+  ans[cur]={text:v,score:v.length>80?2:v.length>25?1:0};
+  document.getElementById('nxt').classList.toggle('on',v.length>20);
+}
+
+function nextQ(){if(ans[cur]===undefined)return;cur++;if(cur<QS.length)showQ();else showEmail();}
+function goBack(){if(cur>0){cur--;showQ();}}
+
+function showEmail(){
+  R(`<div>
+    <div class="brand">Accidental <span>Analytics</span><div class="brand-line"></div></div>
+    <div class="email-screen">
+      <h2>Almost there.<br><em>Where should we send your report?</em></h2>
+      <p>Your personalised assessment covers all 4 dimensions with specific, honest recommendations based on your actual answers. No marketing. No spam. Ever.</p>
+      <div class="email-row">
+        <input type="email" id="em" placeholder="your@email.com"/>
+        <button onclick="submitEmail()">Get my report</button>
+      </div>
+      <button class="skip-btn" onclick="generateReport(null)">Skip — view report now</button>
+    </div>
+  </div>`);
+}
+
+function submitEmail(){
+  const e=document.getElementById('em').value.trim();
+  if(!e||!e.includes('@')){document.getElementById('em').style.borderColor='#E24B4A';return;}
+  generateReport(e);
+}
+
+async function generateReport(email){
+  R(`<div>
+    <div class="brand">Accidental <span>Analytics</span><div class="brand-line"></div></div>
+    <div class="loading">
+      <h3>Building your personalised report...</h3>
+      <p>Analysing your responses across all 4 dimensions</p>
+      <div class="spinner"></div>
+    </div>
+  </div>`);
+
+  const scored=QS.map((q,i)=>({dim:q.dim,q:q.text,a:ans[i]?.text||'not answered',score:ans[i]?.score||0,max:q.type==='mc'?3:2}));
+  const dimS={},dimM={};
+  DIMS.forEach(d=>{dimS[d.id]=0;dimM[d.id]=0;});
+  scored.forEach(s=>{dimS[s.dim]+=s.score;dimM[s.dim]+=s.max;});
+  const dimPcts={};
+  DIMS.forEach(d=>{dimPcts[d.id]=Math.round((dimS[d.id]/dimM[d.id])*100);});
+  const total=Object.values(dimS).reduce((a,b)=>a+b,0);
+  const totalMax=Object.values(dimM).reduce((a,b)=>a+b,0);
+  const pct=Math.round((total/totalMax)*100);
+  const summary=scored.map((s,i)=>`[${s.dim.toUpperCase()}] Q${i+1}: ${s.q}\nAnswer: ${s.a} (${s.score}/${s.max})`).join('\n\n');
+
+  const prompt=`You are Alex Morgan, founder of Accidental Analytics. You have just received someone's AI Era Readiness Assessment across 20 questions and 4 dimensions.
+
+Complete responses:
+${summary}
+
+Dimension scores:
+${DIMS.map(d=>`${d.label}: ${dimPcts[d.id]}%`).join('\n')}
+Overall: ${pct}%
+
+Write their personalised report using EXACTLY these section headers on separate lines:
+
+YOUR AI ERA READINESS SCORE
+
+YOUR STRONGEST DIMENSION
+
+YOUR CRITICAL BLIND SPOT
+
+WHAT YOUR OWN WORDS REVEAL
+
+THREE ACTIONS FOR THIS MONTH
+
+THE ONE THING MOST ASSESSMENTS WON'T TELL YOU
+
+Critical rules — follow without exception:
+— Reference their specific answers directly throughout — quote or closely paraphrase what they actually said
+— Be direct and honest — this is a practitioner's mirror not a coaching session
+— Zero generic sentences — every line must feel written specifically for this person
+— The two free text answers are your richest material — analyse them carefully for depth, specificity, and self-awareness
+— Technical knowledge is irrelevant to scoring well — mindset, observation instinct, learning agility, and political intelligence are what matter
+— If they scored 0 on multiple situation questions that is a serious warning — name it specifically
+— If their free text answers are vague or short compared to their multiple choice scores that gap is important — name it
+— Actions must be concrete and doable in the next 7 days — not vague direction
+— The final section should say the one honest thing most assessments are too polished to say
+— Total length: 420-500 words across all sections
+— Write as one experienced practitioner to another — direct, warm, no corporate language
+— Prose only — no bullet points anywhere in the report`;
+
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
+    const data=await res.json();
+    const report=data.content?.[0]?.text||'';
+    showReport(pct,dimPcts,report);
+  }catch(e){
+    showReport(pct,dimPcts,`We could not generate your personalised report right now. Your overall score is ${pct}%. Please check your connection and try again.`);
+  }
+}
+
+function showReport(pct,dimPcts,report){
+  const title=pct>=80?'AI Era Leader':pct>=60?'Active Adapter':pct>=40?'Aware but Cautious':'Starting Point';
+  const sections=[
+    {key:'YOUR AI ERA READINESS SCORE',label:'Your score explained'},
+    {key:'YOUR STRONGEST DIMENSION',label:'Where you shine'},
+    {key:'YOUR CRITICAL BLIND SPOT',label:'Your critical blind spot'},
+    {key:'WHAT YOUR OWN WORDS REVEAL',label:'What your own words reveal'},
+    {key:'THREE ACTIONS FOR THIS MONTH',label:'Three actions this month'},
+    {key:"THE ONE THING MOST ASSESSMENTS WON'T TELL YOU",label:"What most assessments won't say"}
+  ];
+  let secHtml='';
+  sections.forEach((sec,i)=>{
+    const idx=report.indexOf(sec.key);
+    if(idx===-1)return;
+    const start=idx+sec.key.length;
+    const nextIdx=sections.slice(i+1).map(s=>report.indexOf(s.key)).filter(x=>x>idx)[0]||report.length;
+    const content=report.substring(start,nextIdx).replace(/^[\s:—\-\n]+/,'').trim();
+    if(!content)return;
+    secHtml+=`<div class="rep-section"><div class="rep-section-title">${sec.label}</div><div class="rep-content">${content}</div></div>`;
+  });
+  if(!secHtml)secHtml=`<div class="rep-section"><div class="rep-section-title">Your personalised report</div><div class="rep-content">${report}</div></div>`;
+  const dimCards=DIMS.map(d=>`<div class="dsc"><div class="dsc-name">${d.short}</div><div class="dsc-val">${dimPcts[d.id]}%</div></div>`).join('');
+  R(`<div>
+    <div class="brand">Accidental <span>Analytics</span><div class="brand-line"></div></div>
+    <div class="rep-hero">
+      <div class="rep-brand">Your AI era readiness</div>
+      <div class="rep-score">${pct}%</div>
+      <div class="rep-title">${title}</div>
+      <div class="rep-sub">Assessed across AI awareness, situation instinct, people & politics, and strategic lens</div>
+    </div>
+    <div class="dim-scores">${dimCards}</div>
+    ${secHtml}
+    <div class="cta-section">
+      <h3>Continue the journey</h3>
+      <p>Free weekly guides for professionals navigating the AI era — practical, honest, practitioner-written. Every Tuesday.</p>
+      <a href="https://accidentalanalytics.beehiiv.com" class="cta-btn" target="_blank">Subscribe to Accidental Analytics →</a>
+    </div>
+    <button class="restart-btn" onclick="startA()">Retake assessment</button>
+  </div>`);
+}
+
+showIntro();
+</script>
+</body>
+</html>
